@@ -4,11 +4,90 @@
   <meta charset="UTF-8">
   <title>Phenotype Demo</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:20px; }
-    #preview { max-width:300px; margin-top:10px; }
-    table { margin-top:20px; border-collapse: collapse; }
-    td, th { border:1px solid #ccc; padding:8px; text-align:left; }
-    #debug { margin-top:20px; padding:10px; border:1px solid #aaa; max-height:150px; overflow:auto; background:#f9f9f9; font-size:12px; }
+    /* Reset & body */
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #aaa;
+    }
+
+    /* Upload button */
+    .upload-btn {
+      background-color: #1e88e5;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
+    .upload-btn:hover {
+      background-color: #1565c0;
+    }
+
+    #preview {
+      max-width: 300px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    /* Table styling */
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      margin-top: 20px;
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+    }
+    th {
+      background-color: #2c2c2c;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Debug box */
+    #debug {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #333;
+      max-height: 150px;
+      overflow-y: auto;
+      background-color: #1f1f1f;
+      font-size: 12px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 8px;
+    }
   </style>
   <link rel="icon" href="data:,">
 </head>
@@ -16,8 +95,9 @@
   <h1>Phenotype Matcher</h1>
   <p>Upload a face photo and see your closest average match plus some traits.</p>
 
-  <input type="file" id="upload" accept="image/*">
-  <br>
+  <label class="upload-btn" for="upload">Upload Face</label>
+  <input type="file" id="upload" accept="image/*" style="display:none;">
+
   <img id="preview">
 
   <table id="results">
@@ -29,9 +109,8 @@
 
   <div id="debug">Debug logs will appear here</div>
 
-  <!-- Load face-api.js first -->
+  <!-- face-api.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
-  <!-- Then load your script -->
   <script defer src="script.js"></script>
 </body>
 </html>
