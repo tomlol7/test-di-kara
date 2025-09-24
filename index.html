@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Phenotype Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:20px; }
+    #preview { max-width:300px; margin-top:10px; }
+    table { margin-top:20px; border-collapse: collapse; }
+    td, th { border:1px solid #ccc; padding:8px; text-align:left; }
+  </style>
+</head>
+<body>
+  <h1>Phenotype Demo</h1>
+  <p>Upload a face photo and see your closest average match plus some traits.</p>
+
+  <input type="file" id="upload" accept="image/*">
+  <img id="preview" />
+
+  <table id="results">
+    <thead>
+      <tr><th>Trait</th><th>Result</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- face-api.js -->
+  <script src="https://unpkg.com/face-api.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
