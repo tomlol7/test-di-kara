@@ -3,8 +3,10 @@ const resultsBody = document.querySelector('#results tbody');
 
 // References (average face images)
 const references = [
-  { label: "Castizo", file: "castizo.jpg" },
-  { label: "Mestizo", file: "mestizo.jpg" }
+  { label: "Bantuid", file: "bantuidm.jpg" },
+  { label: "Mediterranid", file: "mediterranidm.jpg" },
+  { label: "Nordid", file: "nordidm.jpg" },
+  { label: "South Mongolid", file: "southmongolidm.jpg" }
 ];
 let referenceDescriptors = [];
 
@@ -24,9 +26,11 @@ async function loadReferences() {
         label: ref.label,
         descriptor: detection.descriptor
       });
+    } else {
+      console.warn("⚠️ No face detected in reference:", ref.file);
     }
   }
-  console.log("Reference faces loaded");
+  console.log("✅ Reference faces loaded:", referenceDescriptors.map(r => r.label));
 }
 
 // Handle upload
@@ -53,7 +57,7 @@ document.getElementById('upload').addEventListener('change', async (e) => {
       }
     }
 
-    // Trait detection (simple approximations)
+    // Trait detection (currently placeholders)
     const hairColor = detectHairColor(preview);
     const eyeColor = detectEyeColor(detection);
     const lipFullness = detectLipFullness(detection);
@@ -72,17 +76,13 @@ document.getElementById('upload').addEventListener('change', async (e) => {
 // Simple Trait Detection
 // -----------------------
 function detectHairColor(img) {
-  // Placeholder: sample top part of image
-  // Real implementation: crop forehead/hair region and average RGB
   return Math.random() > 0.5 ? "Blond" : "Brown"; 
 }
 
 function detectEyeColor(detection) {
-  // Placeholder: check eye region
   return Math.random() > 0.5 ? "Blue" : "Brown"; 
 }
 
 function detectLipFullness(detection) {
-  // Placeholder: use landmarks to measure lip height / width
   return Math.random() > 0.5 ? "Full" : "Medium";
 }
