@@ -1,15 +1,13 @@
-// Grab elements
 const preview = document.getElementById('preview');
 const resultsBody = document.querySelector('#results tbody');
 const debugBox = document.getElementById('debug');
 
-// Helper to log messages
 function logDebug(msg) {
   console.log(msg);
   debugBox.innerHTML += msg + "<br>";
 }
 
-// Reference average faces
+// References
 const references = [
   { label: "Bantuid", file: "bantuidm.jpg" },
   { label: "Mediterranid", file: "mediterranidm.jpg" },
@@ -18,7 +16,7 @@ const references = [
 ];
 let referenceDescriptors = [];
 
-// Load face-api.js models
+// Load models
 Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
   faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
@@ -31,22 +29,19 @@ async function loadReferences() {
       const img = await faceapi.fetchImage('./reference/' + ref.file);
       const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
       if (detection) {
-        referenceDescriptors.push({
-          label: ref.label,
-          descriptor: detection.descriptor
-        });
+        referenceDescriptors.push({ label: ref.label, descriptor: detection.descriptor });
         logDebug("✅ Loaded reference: " + ref.label);
       } else {
         logDebug("⚠️ No face detected in reference: " + ref.file);
       }
-    } catch (e) {
+    } catch(e) {
       logDebug("❌ Error loading reference: " + ref.file + " | " + e);
     }
   }
   logDebug("✅ All reference faces loaded");
 }
 
-// Handle upload
+// Upload handling
 document.getElementById('upload').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -71,7 +66,7 @@ document.getElementById('upload').addEventListener('change', async (e) => {
       }
     }
 
-    // Placeholder trait detection
+    // Placeholder traits
     const hairColor = detectHairColor(preview);
     const eyeColor = detectEyeColor(detection);
     const lipFullness = detectLipFullness(detection);
@@ -87,17 +82,7 @@ document.getElementById('upload').addEventListener('change', async (e) => {
   };
 });
 
-// -----------------------
-// Trait detection placeholders
-// -----------------------
-function detectHairColor(img) {
-  return Math.random() > 0.5 ? "Blond" : "Brown"; 
-}
-
-function detectEyeColor(detection) {
-  return Math.random() > 0.5 ? "Blue" : "Brown"; 
-}
-
-function detectLipFullness(detection) {
-  return Math.random() > 0.5 ? "Full" : "Medium";
-}
+// Placeholder trait functions
+function detectHairColor(img) { return Math.random() > 0.5 ? "Blond" : "Brown"; }
+function detectEyeColor(detection) { return Math.random() > 0.5 ? "Blue" : "Brown"; }
+function detectLipFullness(detection) { return Math.random() > 0.5 ? "Full" : "Medium"; }
