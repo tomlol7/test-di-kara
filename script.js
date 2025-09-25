@@ -1,7 +1,15 @@
+// Grab elements
 const preview = document.getElementById('preview');
 const resultsBody = document.querySelector('#results tbody');
+const debugBox = document.getElementById('debug');
 
-// References (average face images)
+// Helper to log messages
+function logDebug(msg) {
+  console.log(msg);
+  debugBox.innerHTML += msg + "<br>";
+}
+
+// Reference average faces
 const references = [
   { label: "Bantuid", file: "bantuidm.jpg" },
   { label: "Mediterranid", file: "mediterranidm.jpg" },
@@ -15,22 +23,27 @@ Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
   faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
   faceapi.nets.faceRecognitionNet.loadFromUri('./models')
-]).then(loadReferences);
+]).then(loadReferences).catch(err => logDebug("❌ Error loading models: " + err));
 
 async function loadReferences() {
   for (let ref of references) {
-    const img = await faceapi.fetchImage('./reference/' + ref.file);
-    const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-    if (detection) {
-      referenceDescriptors.push({
-        label: ref.label,
-        descriptor: detection.descriptor
-      });
-    } else {
-      console.warn("⚠️ No face detected in reference:", ref.file);
+    try {
+      const img = await faceapi.fetchImage('./reference/' + ref.file);
+      const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+      if (detection) {
+        referenceDescriptors.push({
+          label: ref.label,
+          descriptor: detection.descriptor
+        });
+        logDebug("✅ Loaded reference: " + ref.label);
+      } else {
+        logDebug("⚠️ No face detected in reference: " + ref.file);
+      }
+    } catch (e) {
+      logDebug("❌ Error loading reference: " + ref.file + " | " + e);
     }
   }
-  console.log("✅ Reference faces loaded:", referenceDescriptors.map(r => r.label));
+  logDebug("✅ All reference faces loaded");
 }
 
 // Handle upload
@@ -43,10 +56,11 @@ document.getElementById('upload').addEventListener('change', async (e) => {
     const detection = await faceapi.detectSingleFace(preview).withFaceLandmarks().withFaceDescriptor();
     if (!detection) {
       alert("No face detected!");
+      logDebug("⚠️ No face detected in uploaded image");
       return;
     }
 
-    // Closest reference match
+    // Find closest reference
     let bestMatch = null;
     let bestDist = 1.0;
     for (let ref of referenceDescriptors) {
@@ -57,23 +71,24 @@ document.getElementById('upload').addEventListener('change', async (e) => {
       }
     }
 
-    // Trait detection (currently placeholders)
+    // Placeholder trait detection
     const hairColor = detectHairColor(preview);
     const eyeColor = detectEyeColor(detection);
     const lipFullness = detectLipFullness(detection);
 
-    // Display table
+    // Show results
     resultsBody.innerHTML = `
       <tr><td>Closest Match</td><td>${bestMatch} (${(1-bestDist).toFixed(2)})</td></tr>
       <tr><td>Hair Color</td><td>${hairColor}</td></tr>
       <tr><td>Eye Color</td><td>${eyeColor}</td></tr>
       <tr><td>Lip Fullness</td><td>${lipFullness}</td></tr>
     `;
+    logDebug("✅ Uploaded face analyzed: Closest match = " + bestMatch);
   };
 });
 
 // -----------------------
-// Simple Trait Detection
+// Trait detection placeholders
 // -----------------------
 function detectHairColor(img) {
   return Math.random() > 0.5 ? "Blond" : "Brown"; 
