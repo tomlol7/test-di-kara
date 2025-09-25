@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Phenotype Demo</title>
   <style>
-    /* Reset & body */
-    * { box-sizing: border-box; margin:0; padding:0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212;
@@ -19,8 +17,8 @@
 
     h1 {
       margin-bottom: 10px;
-      text-align: center;
       font-size: 2rem;
+      text-align: center;
     }
 
     p {
@@ -29,7 +27,6 @@
       color: #aaa;
     }
 
-    /* Upload button */
     .upload-btn {
       background-color: #1e88e5;
       color: #fff;
@@ -41,6 +38,7 @@
       margin-bottom: 20px;
       transition: background 0.3s;
     }
+
     .upload-btn:hover {
       background-color: #1565c0;
     }
@@ -52,7 +50,6 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
-    /* Table styling */
     table {
       border-collapse: collapse;
       width: 90%;
@@ -64,18 +61,20 @@
       overflow: hidden;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
+
     th, td {
       padding: 12px;
       border-bottom: 1px solid #333;
     }
+
     th {
       background-color: #2c2c2c;
     }
+
     tr:last-child td {
       border-bottom: none;
     }
 
-    /* Debug box */
     #debug {
       margin-top: 20px;
       padding: 10px;
@@ -95,14 +94,11 @@
   <h1>Phenotype Matcher</h1>
   <p>Upload a face photo and see your closest average match plus some traits.</p>
 
-  <!-- Upload button -->
   <label class="upload-btn" for="upload">Upload Face</label>
   <input type="file" id="upload" accept="image/*" style="display:none;">
 
-  <!-- Preview image -->
   <img id="preview">
 
-  <!-- Results table -->
   <table id="results">
     <thead>
       <tr><th>Trait</th><th>Result</th></tr>
@@ -110,12 +106,10 @@
     <tbody></tbody>
   </table>
 
-  <!-- Debug box -->
   <div id="debug">Debug logs will appear here</div>
 
-  <!-- Load face-api.js first -->
+  <!-- Load face-api.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
-  <!-- Then load your script -->
   <script defer src="script.js"></script>
 </body>
 </html>
