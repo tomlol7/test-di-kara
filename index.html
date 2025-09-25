@@ -95,11 +95,14 @@
   <h1>Phenotype Matcher</h1>
   <p>Upload a face photo and see your closest average match plus some traits.</p>
 
+  <!-- Upload button -->
   <label class="upload-btn" for="upload">Upload Face</label>
   <input type="file" id="upload" accept="image/*" style="display:none;">
 
+  <!-- Preview image -->
   <img id="preview">
 
+  <!-- Results table -->
   <table id="results">
     <thead>
       <tr><th>Trait</th><th>Result</th></tr>
@@ -107,10 +110,12 @@
     <tbody></tbody>
   </table>
 
+  <!-- Debug box -->
   <div id="debug">Debug logs will appear here</div>
 
-  <!-- face-api.js -->
+  <!-- Load face-api.js first -->
   <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <!-- Then load your script -->
   <script defer src="script.js"></script>
 </body>
 </html>
